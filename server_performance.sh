@@ -1,16 +1,13 @@
 #!/bin/bash
 # getting servers performance
-in_traffic=$(sudo ifconfig eth0 | awk '/RX packets/{print $5}')
-out_traffic=$(sudo ifconfig eth0 | awk '/TX packets/{print $5}')
+
 #getDateTime
 datetime=$(date +"%Y-%m-%d %H:%M:%S")
 cpu=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
 mem=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
 disk=$(df -h / | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $5}' | cut -d'%' -f1)
-#in_traffic=$(echo "scale=2; $in_traffic_raw / 1073741824" | bc)
-#out_traffic=$(echo "scale=2; $out_traffic_raw / 1073741824" | bc)
-#in_traffic=$(sudo ifconfig eth0 | awk '/RX packets/{getline; print $5}')
-#out_traffic=$(sudo ifconfig eth0 | awk '/TX packets/{getline; print $5}')
+in_traffic=$(sudo ifconfig eth0 | awk '/RX packets/{print $5}')
+out_traffic=$(sudo ifconfig eth0 | awk '/TX packets/{print $5}')
 # Function to convert bytes to human-readable format
 format_bytes() {
     bytes=$1
